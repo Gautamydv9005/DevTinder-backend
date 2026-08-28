@@ -2,21 +2,21 @@ const express=require('express');
 const app=express();
 const port=7777;
 
-// app.get("/user/:id",(req,res)=>{
-//     res.send(`user id:${req.params.id}`);
-// });
-app.get("/users",(req,res)=>{
-    console.log(req.query.age);
-    res.send("done");
-})
+app.get("/user",(req,res,next)=>{
+    console.log("handling route from user1")
+    next();
+    res.send("hello from riute 1"); 
+    
+},
+(req,res, next)=>{
+    next();
+    res.send("hello rom route 2");
+},
+(req,res)=>{
+    res.send("hello from 3rd user route");
+}
 
-
-app.post("/user",(req,res)=>{
-    res.send("data uploaded sucessfully");
-})
-app.delete("/user",(req,res)=>{
-    res.send("data dekete successfully");
-})
+);
 
 app.listen(port,()=>{
     console.log("server is running at port ")
