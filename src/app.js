@@ -2,13 +2,22 @@ const express=require('express');
 const app=express();
 const port=7777;
 
-app.use("/",(req,res)=>{
-    res.send("hello gautam from home page");
+// app.get("/user/:id",(req,res)=>{
+//     res.send(`user id:${req.params.id}`);
+// });
+app.get("/users",(req,res)=>{
+    console.log(req.query.age);
+    res.send("done");
 })
-app.use("/test",(req,res)=>{
-    res.send("hello from test route");
+
+
+app.post("/user",(req,res)=>{
+    res.send("data uploaded sucessfully");
+})
+app.delete("/user",(req,res)=>{
+    res.send("data dekete successfully");
 })
 
 app.listen(port,()=>{
     console.log("server is running at port ")
-})
+});
