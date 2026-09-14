@@ -1,23 +1,32 @@
+const express = require("express");
+const app = express();
+const port = 7777;
 
-const express=require('express');
-const app=express();
-const port=7777;
+const { adminauth, userauth } = require("./middleware/auth");
 
-const{adminauth,userauth}=require("./middleware/auth")
+// Admin authentication
+app.use("/admin", adminauth);
 
-app.use("/admin",adminauth);
+app.get("/admin", (req, res) => {
+    res.send("Data access granted");
+});
 
-app.get("/admin",(req,res)=>{
-    res.send("data assess Gurented ");
-})
+// Public login
+app.get("/user/login", (req, res) => {
+    res.send("Login successfully");
+});
 
-app.get("/user/login",(req,res)=>{
-    res.send("login successfully");
-})
-app.use("/user",userauth,(req,res)=>{
-    res.send("user acess Gurented");
-})
+// User authentication
+app.use("/user", userauth, (req, res) => {
+    res.send("User access granted");
+});
 
-app.listen(port,()=>{
-    console.log(`server is running at port ${port}`);
+// Error-handling middleware
+app.use("/",(err, req, res, next) => {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+});
+
+app.listen(port, () => {
+    console.log(`Server is running at port ${port}`);
 });
