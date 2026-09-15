@@ -9,10 +9,9 @@
   "author": "Gautam yadav",
   "type": "commonjs",
   "main": "index.js",
-  "scripts": {
-   
-  },
+  "scripts": {},
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.10.0"
   }
 }

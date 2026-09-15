@@ -2,31 +2,41 @@ const express = require("express");
 const app = express();
 const port = 7777;
 
-const { adminauth, userauth } = require("./middleware/auth");
+const connectDB=  require("./config/DataBase");
+const User= require("./models/user");
 
-// Admin authentication
-app.use("/admin", adminauth);
+app.post("/signup",async(req,res)=>{
+    
+        const user=new User({
+        FirstName:"Govinda",
+        LastName:"Yadav",
+        Age:25,
+        Password:"Govinda@123",
+        Email:"govindayadav9005@gmail.com"
+    });
 
-app.get("/admin", (req, res) => {
-    res.send("Data access granted");
-});
+    try{
 
-// Public login
-app.get("/user/login", (req, res) => {
-    res.send("Login successfully");
-});
+    await user.save();
+    res.send("User data added successfully");
+    }
+    catch(err){
+        res.status(401).send("something went wrong");
+    }
+    
+})
 
-// User authentication
-app.use("/user", userauth, (req, res) => {
-    res.send("User access granted");
-});
 
-// Error-handling middleware
-app.use("/",(err, req, res, next) => {
-    console.log(err);
-    res.status(500).send("Something went wrong");
-});
 
-app.listen(port, () => {
-    console.log(`Server is running at port ${port}`);
-});
+
+connectDB()
+.then(()=>{
+    console.log("Connection To the dataBase is successfully established");
+    app.listen(port,()=>{
+        console.log(`server is listening at port ${port}`)
+    })
+})
+.catch((err)=>{
+    console.log("something went wrong..........");
+})
+
